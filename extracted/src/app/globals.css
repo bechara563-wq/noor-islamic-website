@@ -1,0 +1,284 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ===== Noor — Official Brand Palette (fixed) ===== */
+  --color-navy: #102a43;
+  --color-navy-deep: #0b1f33;
+  --color-navy-soft: #1b3a5c;
+  --color-teal: #2c7a7b;
+  --color-teal-deep: #225e5f;
+  --color-teal-bright: #3e9e9f;
+  --color-gold: #d4af6a;
+  --color-gold-soft: #e7d3a7;
+  --color-gold-deep: #b8944f;
+  --color-ivory: #f8f6f0;
+  --color-charcoal: #243447;
+  --color-slate: #718096;
+
+  --font-sans: var(--font-ibm), "IBM Plex Sans Arabic", "Noto Sans Arabic",
+    "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --animate-fade-up: fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.5s ease both;
+  --animate-scale-in: scale-in 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  --animate-spin-slow: spin 48s linear infinite;
+}
+
+/* Semantic tokens — switch with .dark */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-sub: var(--sub);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-soft: var(--brand-soft);
+  --color-quran-ink: var(--quran-ink);
+  --color-quran-surface: var(--quran-surface);
+}
+
+:root {
+  --canvas: #f8f6f0;
+  --surface: #ffffff;
+  --surface-2: #f2eee3;
+  --ink: #243447;
+  --sub: #718096;
+  --line: #e8e1d1;
+  --brand: #2c7a7b;
+  --brand-deep: #225e5f;
+  --brand-fg: #ffffff;
+  --brand-soft: rgb(44 122 123 / 0.09);
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: #0b1b29;
+  --surface: #102539;
+  --surface-2: #163049;
+  --ink: #e9eef4;
+  --sub: #93a7b8;
+  --line: #1e3a52;
+  --brand: #45a7a8;
+  --brand-deep: #379b9c;
+  --brand-fg: #06232b;
+  --brand-soft: rgb(78 170 171 / 0.14);
+  color-scheme: dark;
+}
+
+/* Quran ink — high contrast in both modes (spec: #102A43 on #F8F6F0) */
+:root {
+  --quran-ink: #102a43;
+  --quran-surface: #fffcf6;
+}
+.dark {
+  --quran-ink: #ece4d3;
+  --quran-surface: #122539;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgb(212 175 106 / 0.35);
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .wrap {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Subtle Islamic 8-point star lattice */
+  .pattern-geo {
+    background-image: url("data:image/svg+xml,%3Csvg width='96' height='96' viewBox='0 0 96 96' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23D4AF6A' stroke-width='1' stroke-opacity='0.5'%3E%3Crect x='33' y='33' width='30' height='30'/%3E%3Crect x='33' y='33' width='30' height='30' transform='rotate(45 48 48)'/%3E%3C/g%3E%3Ccircle cx='48' cy='48' r='3' fill='%23D4AF6A' fill-opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 96px 96px;
+  }
+
+  .skeleton {
+    border-radius: 0.5rem;
+    background: linear-gradient(
+      100deg,
+      var(--surface-2) 40%,
+      var(--line) 50%,
+      var(--surface-2) 60%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ripple-host {
+    position: relative;
+    overflow: hidden;
+  }
+  .ripple-ink {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    background-color: currentColor;
+    animation: ripple 0.55s ease-out forwards;
+  }
+
+  /* ---------------------- Mushaf (Quran) reading ---------------------- */
+
+  .quran-font {
+    font-family: var(--font-amiri), "Amiri Quran", "Scheherazade New", serif;
+  }
+
+  .quran-text {
+    font-family: var(--font-amiri), "Amiri Quran", "Scheherazade New", serif;
+    color: var(--quran-ink);
+    direction: rtl;
+    line-height: 2.1;
+    letter-spacing: 0;
+    word-spacing: 0.05em;
+    text-align: justify;
+  }
+
+  /* Ayah end marker — ornamented number */
+  .ayah-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.9em;
+    height: 1.9em;
+    margin-inline: 0.35em;
+    padding-inline: 0.15em;
+    border-radius: 9999px;
+    border: 1.5px solid #d4af6a;
+    color: #b8944f;
+    font-size: 0.55em;
+    line-height: 1;
+    transform: translateY(0.25em);
+    background: rgb(212 175 106 / 0.08);
+  }
+  .dark .ayah-marker {
+    color: #d4af6a;
+  }
+
+  .sajda-marker {
+    color: #b8944f;
+    font-size: 1em;
+  }
+  .dark .sajda-marker {
+    color: #d4af6a;
+  }
+}
